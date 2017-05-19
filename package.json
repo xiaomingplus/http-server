@@ -1,19 +1,19 @@
 {
-  "name": "http-server",
-  "version": "0.10.0",
-  "description": "A simple zero-configuration command-line http server",
+  "name": "start-server",
+  "version": "0.0.1",
+  "description": "一个简单的http mock 服务器",
   "main": "./lib/http-server",
   "repository": {
     "type": "git",
-    "url": "git://github.com/indexzero/http-server.git"
+    "url": "git://github.com/xiaomingplus/start-server.git"
   },
   "keywords": [
     "cli",
     "command"
   ],
   "scripts": {
-    "start": "node ./bin/http-server",
-    "pretest": "common bin/http-server lib/ test",
+    "start": "node ./bin/start-server",
+    "pretest": "common bin/start-server lib/ test",
     "test": "vows --spec --isolate"
   },
   "contributors": [
@@ -59,16 +59,24 @@
     {
       "name": "BigBlueHat",
       "email": "byoung@bigbluehat.com"
+    },
+    {
+      "name": "Guobao Yang",
+      "email": "xiaomingplusversion@gmail.com"
     }
   ],
   "dependencies": {
+    "axios": "^0.16.1",
     "colors": "1.0.3",
     "corser": "~2.0.0",
     "ecstatic": "^2.0.0",
+    "electron-proxy-agent": "^1.0.2",
     "http-proxy": "^1.8.1",
+    "mkdirp": "^0.5.1",
     "opener": "~1.4.0",
     "optimist": "0.6.x",
     "portfinder": "^1.0.13",
+    "session": "^0.1.0",
     "union": "~0.4.3"
   },
   "devDependencies": {
@@ -82,7 +90,7 @@
   "license": "MIT",
   "preferGlobal": "true",
   "bin": {
-    "http-server": "./bin/http-server",
-    "hs": "./bin/http-server"
+    "start-server": "./bin/start-server",
+    "ss": "./bin/start-server"
   }
 }
