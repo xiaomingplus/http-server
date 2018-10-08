@@ -1,6 +1,6 @@
 {
   "name": "start-server",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "一个简单的http mock 服务器",
   "main": "./lib/http-server",
   "repository": {
@@ -66,7 +66,7 @@
     }
   ],
   "dependencies": {
-    "axios": "^0.16.1",
+    "axios": "^0.16.2",
     "colors": "1.0.3",
     "corser": "~2.0.0",
     "ecstatic": "^2.0.0",

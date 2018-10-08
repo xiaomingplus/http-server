@@ -1,41 +1,65 @@
 
-# start-server: a command-line http server mock tools
+# start-server: 一个好用的本地文件mock工具
 
-`start-server` 是一个简单的http服务器,既可以是一个静态文件服务器，也可以是一个mock的api服务端，还支持类似CI框架的dcm的query来mock文件,在`http-server`基础上改写而来。
+`start-server` 是一个简单好用的本地http服务器,可以方便的提供一个基于本地文件的mock服务，同时支持类似CI框架的dcm的query来作为路由mock本地文件,在`http-server`基础上改写而来。
+
+## 介绍
+
+start-server提供了这样一个本地文件和路由的映射关系，默认使用根目录下的mocks文件夹作为mock文件的存放目录，假如本地文件夹的层级如下:
+
+    └── mocks
+        └── api
+            ├── posts
+            │   ├── 1
+            │   │   └── comments.json
+            │   └── 1.json
+            └── posts.json
+
+那么在当前文件夹下使用```ss```命令启动服务后，你可以用下面的地址来请求本地mock的接口(默认端口9966)：
+
+<http://127.0.0.1:9966/api/posts>
+
+<http://127.0.0.1:9966/api/posts/1>
+
+<http://127.0.0.1:9966/api/posts/1/comments>
+
+另外，工具还提供了一个直接把线上的接口内容，使用一个简单的命令下载到当前目录的mocks文件夹内,比如上述示例的mock文件，其实是运行下面的命令来生成的，当然你也可以自己手动去创建
+
+    ss mock https://jsonplaceholder.typicode.com/posts
+    ss mock https://jsonplaceholder.typicode.com/posts/1
+    ss mock https://jsonplaceholder.typicode.com/posts/1/comments
+
+同时也支持CI框架的query参数dcm形式的路由,比如上述3个路由可以对应下面的dcm形式:
 
 
-# 安装:
+<http://127.0.0.1:9966/api/?d=posts>
 
-Installation via `npm`:
+<http://127.0.0.1:9966/api/?d=posts&c=1>
 
-     npm install start-server -g
+<http://127.0.0.1:9966/api/?d=posts&c=1&m=comments>
 
+## 安装:
 
-## Usage:
+通过 `npm`:
+
+    npm install start-server -g
+
+## 使用
+
 - 启动服务器：
 
-    ```start-server [path] [options]```
+    ```ss```
 
-    `[path]` defaults to `./mocks` if the folder exists, and `./` otherwise.
+- 根据现有的url创建一个静态文件(如果请求成功则使用远程接口的内容，请求失败则只创建一个文件):
 
-    *Now you can visit http://localhost:8899 to view your server*
-
-- 根据现有的url创建一个静态文件(如果能请求到则使用请求的，如果不能则只创建一个文件):
-
-    ```start-server mock url [options]```
-
-        options:{
-            proxy:"http://xxx.com:8080",//为mock设置代理
-            path:"./mocks",//设置生成的base目录
-        }
-
+    ```ss mock [url]```
     examples:
 
-    `start-server mock http://ditu.amap.com/service/regeo?longitude=121.04925573429551&latitude=31.315590522490712`
+    `start-server mock https://jsonplaceholder.typicode.com/posts`
 
 ## 配置文件格式
 
-除了静态文件路由之外，还支持用配置文件来做一些路由映射,优先取配置文件里的配置,配置文件的地址默认为`/mocks/config.js`,主要用来配置一些简单的mock路径对应的响应,examples:
+除了静态文件路由之外，还支持用配置文件来做一些复杂的路由映射,优先取配置文件里的配置,配置文件的地址默认为`/mocks/config.js`,主要用来配置一些简单的mock路径对应的响应,examples:
 
 ```
 module.exports = {
@@ -65,7 +89,7 @@ module.exports = {
 }
 ```
 
-## Available Options:
+## 其它的命令行参数 Options:
 
 `--config` 指定配置文件地址(可选),默认`[path]/config.js` 
 
@@ -104,18 +128,3 @@ module.exports = {
 `-h` or `--help` Print this list and exit.
 
 `--pathQueryKeys` 如果需要类CI的路由风格，可以在这里指定，默认是`d,c,m`,设置为false则关闭query风格的路由模式  
-
-
-# Development
-
-Checkout this repository locally, then:
-
-```sh
-$ npm i
-$ node bin/http-server
-```
-
-*Now you can visit http://localhost:8080 to view your server*
-
-You should see the turtle image in the screenshot above hosted at that URL. See
-the `./public` folder for demo content.

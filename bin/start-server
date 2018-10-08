@@ -19,7 +19,7 @@ if (argv.h || argv.help) {
         'usage: http-server [path] [options]',
         '',
         'options:',
-        '  -p           Port to use [8899]',
+        '  -p           Port to use [9966]',
         '  -a           Address to use [0.0.0.0]',
         '  -d           Show directory listings [true]',
         '  -i           Display autoIndex [true]',
@@ -101,7 +101,7 @@ if (!argv.s && !argv.silent) {
 }
 
 if (!port) {
-    portfinder.basePort = 8899;
+    portfinder.basePort = 9966;
     portfinder.getPort(function (err, port) {
         if (err) {
             throw err;
